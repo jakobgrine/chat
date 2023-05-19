@@ -25,14 +25,18 @@ messagesRouter.post("/", (req, res) => {
     });
 });
 
-messagesRouter.get("/stream", (_, res) => {
+messagesRouter.get("/stream", (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Connection", "keep-alive");
     res.setHeader("Cache-Control", "no-cache");
     res.flushHeaders();
 
-    db.on("message", (message: Message) => {
+    const onMessage = (message: Message) => {
         const data = JSON.stringify(message);
         res.write(`data:${data}\n\n`);
+    };
+    db.on("message", onMessage);
+    req.on("close", () => {
+        db.off("message", onMessage);
     });
 });

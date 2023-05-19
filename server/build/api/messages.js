@@ -23,13 +23,17 @@ exports.messagesRouter.post("/", (req, res) => {
         content: result.data.message,
     });
 });
-exports.messagesRouter.get("/stream", (_, res) => {
+exports.messagesRouter.get("/stream", (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Connection", "keep-alive");
     res.setHeader("Cache-Control", "no-cache");
     res.flushHeaders();
-    db_1.db.on("message", (message) => {
+    const onMessage = (message) => {
         const data = JSON.stringify(message);
         res.write(`data:${data}\n\n`);
+    };
+    db_1.db.on("message", onMessage);
+    req.on("close", () => {
+        db_1.db.off("message", onMessage);
     });
 });
