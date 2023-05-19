@@ -1,0 +1,9 @@
+form#message-form {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    .grow {
+        flex-grow: 1;
+    }
+}

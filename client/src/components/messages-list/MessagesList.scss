@@ -1,0 +1,23 @@
+.scroll-container {
+    display: flex;
+    flex-direction: column-reverse;
+
+    overflow-y: auto;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .message {
+        p {
+            margin: 0;
+        }
+
+        .author {
+            font-size: .8rem;
+            color: #708090;
+        }
+    }
+}
