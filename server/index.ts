@@ -31,7 +31,7 @@ for (const route of routes) {
 
 app.use("/api/auth", authRouter);
 app.use("/api/messages", (req, res, next) => {
-    if (req.session.username) {
+    if (req.session.accessToken) {
         next();
         return;
     }
