@@ -20,7 +20,7 @@ messagesRouter.post("/", (req, res) => {
     }
 
     db.insertMessage({
-        author: req.session.username!,
+        author: req.session.user!.username,
         content: result.data.message,
     });
 });
